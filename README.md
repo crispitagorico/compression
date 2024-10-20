@@ -3,27 +3,25 @@
 
 # Arithmetic Coding
 
-Arithmetic coding, also known as range coding, is an example of **streaming codes**. Unlike symbol codes, streaming codes assign codewords to entire messages rather than individual symbols. This method amortizes the overhead across the whole sequence, allowing it to approach entropy more efficiently.
+Arithmetic coding, also known as range coding, is an example of **streaming codes**. Unlike symbol codes, streaming codes assign codewords to entire messages rather than individual symbols. 
 
-## Basic Idea
-
-The core idea is to associate each symbol with a **subinterval** of the interval $[0,1]$, where the length of the subinterval corresponds to the symbol's probability. When encoding a sequence, subsequent symbols are represented as subintervals of the previous symbol’s interval, proportional to their joint probability.
+The core idea is to associate each symbol with a **subinterval** of the interval $$[0,1]$$, where the length of the subinterval corresponds to the symbol's probability. When encoding a sequence, subsequent symbols are represented as subintervals of the previous symbol’s interval, proportional to their joint probability.
 
 For example:
-- If symbol "a" has a probability of $ \frac{1}{5} $ and is assigned to the interval $[0, 0.2)$, 
-- The sequence "aa" would be encoded as $[0, 0.04)$.
+- If symbol "a" has a probability of $$ \frac{1}{5} $$ and is assigned to the interval $$[0, 0.2)$$, 
+- The sequence "aa" would be encoded as $$[0, 0.04)$$.
 
 This process iterates over the entire sequence, producing nested subintervals. Any real number within the final subinterval uniquely identifies the sequence.
 
 ## Efficiency
 
-In practice, the **final subinterval**'s length reflects the **sequence’s joint probability**, and the smallest number of bits needed to represent a number within this interval encodes the message. The code length approximates the $-\log_2 P(\text{sequence}) $, consistent with entropy.
+In practice, the **final subinterval**'s length reflects the **sequence’s joint probability**, and the smallest number of bits needed to represent a number within this interval encodes the message. The code length approximates the $$-\log_2 P(\text{sequence}) $$, consistent with entropy.
 
-Let $ x_n $ be a message of length $ n $ and $ C(x_n) $ its codeword, under an assumed probability distribution $ Q $. The length of the code $ |C(x_n)| $ satisfies:
+Let $$ x_n $$ be a message of length $$ n $$ and $$ C(x_n) $$ its codeword, under an assumed probability distribution $$ Q $$. The length of the code $$ |C(x_n)| $$ satisfies:
 
 $$ |C(x_n)| < \lceil -\log_2 Q(x_n) \rceil + 1 $$
 
-If the true distribution is $ P $, the average code length is bounded by $ H[P,Q] + 2 $. Unlike Huffman coding, arithmetic coding’s overhead is spread across all symbols, achieving greater efficiency for long messages. Per symbol, the overhead is approximately $ \frac{2}{n} $ bits compared to Huffman coding’s 1 bit per symbol.
+If the true distribution is $$ P $$, the average code length is bounded by $$ H[P,Q] + 2 $$. Unlike Huffman coding, arithmetic coding’s overhead is spread across all symbols, achieving greater efficiency for long messages. Per symbol, the overhead is approximately $$ \frac{2}{n} $$ bits compared to Huffman coding’s 1 bit per symbol.
 
 ### First-In-First-Out Structure
 
