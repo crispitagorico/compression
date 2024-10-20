@@ -22,7 +22,7 @@ class ArithmeticCoding:
             self.intervals[symbol] = (low, high)
             low = high
 
-    def encode(self, print_probabilities=False):
+    def encode(self, print_probabilities=False, print_intervals=False):
         """Encodes a message into an interval."""
         low, high = 0.0, 1.0
         for symbol in self.message:
@@ -34,6 +34,8 @@ class ArithmeticCoding:
         if print_probabilities:
             print('message:', self.message)
             print('probabilities:', self.probabilities)
+        if print_intervals:
+            print('intervals:', self.intervals)
 
         # The final encoding is any number in the range (low, high)
         return (low + high) / 2
@@ -61,7 +63,7 @@ if __name__ == "__main__":
 
     message = "abac"
     arithmetic_coder = ArithmeticCoding(message)
-    encoded_value = arithmetic_coder.encode(print_probabilities=True)
+    encoded_value = arithmetic_coder.encode(print_probabilities=True ,print_intervals=True)
     print(f"Encoded value: {encoded_value}")
 
     decoded_message = arithmetic_coder.decode(encoded_value, len(message))

@@ -27,6 +27,49 @@ If the true distribution is $P$, the average code length is bounded by $H[P,Q] +
 
 Arithmetic coding implements a **first-in-first-out (FIFO)** data structure, meaning symbols encoded first are also decoded first. This makes it especially useful in compression methods that involve autoregressive models.
 
+### An example
+
+To input an input message `'abac'`, first compute the probability dictionary:
+
+```python
+{'a': 0.5, 'b': 0.25, 'c': 0.25}
+```
+
+Next, create intervals for each symbol based on their probabilities:
+```python
+{'a': (0.0, 0.5), 'b': (0.5, 0.75), 'c': (0.75, 1.0)}
+```
+
+First 'a' is encoded into [0, 0.5] using its interval.
+
+Then encode 'ab', using the range of old interval being 0.5 and interval of 'b' being [0.5, 0.75]:
+```python
+range = 0.5 - 0 = 0
+low =0 + 0.5 * 0.5 = 0.25
+high = 0 + 0.5 * 0.75 = 0.375
+interval = [0.25, 0.375]
+```
+
+Then encode 'aba', using the range of old interval being 0.125 and interval of 'a' being [0, 0.5]:
+```python
+range = high - low = 0.375 - 0.25 = 0.125
+low = 0.25 + 0.0 * 0.125 = 0.25
+high = 0.25 + 0.5 * 0.125 = 0.3125
+interval = [0.25, 0.3125]
+```
+
+Then encode 'abac', using interval of 'c' being [0.75, 1.0], and return final encoded value:
+```python
+range = high - low = 0.3125 - 0.25 = 0.0625
+low = 0.25 + 0.75 * 0.0625 = 0.296875
+high = 0.25 + 1.0 * 0.0625 = 0.3125
+interval = [0.296875, 0.3125]
+encoded_value = (0.296875 + 0.3125) / 2 = 0.3046875
+```
+
+To try different examples yourself, just run the `arithmetic.py` file
+
+
 
 # Asymmetric Numeral Systems (ANS)
 
