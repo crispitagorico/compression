@@ -1,6 +1,18 @@
-# Huffman Tree
+# Huffman Coding
 
+Huffman coding is an example of **prefix codes**, which is a special type of symbol codes. Namely, symbol codes assign codewords to indvidual symbols. Prefix codes are codes in which no codeword is a prefix to another codeword. This can effectively prevent the possible errors occuring in the decoding process. The encoder creates a dictionary that associates each symbol with a binary representation and replaces each symbol of the original data with the corresponding representation. The decoder simply inverts the above process.
 
+The main goal is to achieve lossless compression and shortest average length of binary codes.
+
+Huffman codes satisfy the following two properties:
+Property 1: huffman tree assigns shorter binary codes to more frequent symbols, and longer ones to less frequent symbols
+Property 2: the two symbols that occur least frequently will have the same length, and their binary codes only differ in the last bit
+
+It is obvious to see why property 1 holds.
+The first half of property 2 is less trivial to show. Suppose an optimum code C exists in which the two codewords corresponding to the two least probable symbols do not have the same length. Suppose the longer codeword is k bits longer than the shorter codeword. Because this is a prefix code, the shorter codeword cannot be a prefix of the longer codeword. This means that even if we drop the last k bits of the longer codeword, the two codewords would still be distinct. As these codewords correspond to the least probable symbols in the alphabet, no other codeword can be longer than these codewords; therefore, there is no danger that the shortened codeword would become the prefix of some other codeword. Furthermore, by dropping these k bits we obtain a new code that has a shorter average length than C. But this violates our initial contention that Cis an optimal code.[1] The second half of property 2 is just the defining characteristics of huffman codes.
+
+1.	Sayood K. Introduction to data compression. The Morgan Kaufmann series in multimedia information and systems. Elsevier Science & Technology; 2006.
+ 	 
 # Arithmetic Coding
 
 Arithmetic coding, also known as range coding, is an example of **streaming codes**. Unlike symbol codes, streaming codes assign codewords to entire messages rather than individual symbols. 
